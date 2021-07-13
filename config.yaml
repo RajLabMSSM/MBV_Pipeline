@@ -1,0 +1,4 @@
+bamFolder: "/hpc/users/mulleb01/ad-omics/ben/MBV_Pipeline/test_inputs/"
+bamSuffix: ".bam"
+dataCode: "gsa_microglia_05-2021_allAncestry"
+VCF: "/hpc/users/mulleb01/ad-omics/GSA_genotypes/gsa_may2021/michael_QC_data/ALL_samples/microglia/Genotype_QC_Pipeline_2.0/output/clean_data/gsa_microglia_05-2021_allAncestry_MAF.vcf.gz"
