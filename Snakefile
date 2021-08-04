@@ -11,15 +11,20 @@ dataCode = config["dataCode"]
 VCF = config["VCF"]
 bamFolder = config["bamFolder"]
 bamSuffix = config["bamSuffix"]
+out_folder = config["out_folder"]
 BAM_SAMPLES = [os.path.basename(x).replace(bamSuffix, "") for x in glob.glob(bamFolder + "/*" + bamSuffix)]
 dataCode = dataCode + "_mbv"
+
+#bamstats_output = "bamstats/{sample}.bamstat.txt"
 final_output = dataCode + "_summary.txt"
 
 print(" * MBV pipeline *")
 print(" Jack Humphrey 2019-2020 ")
 print(" * Data code is : %s " % dataCode)
 
-pathlib.Path("bamstats").mkdir(parents=True, exist_ok=True)
+pathlib.Path(out_folder + "bamstats").mkdir(parents=True, exist_ok=True)
+
+print(BAM_SAMPLES)
 
 rule all:
     input:
@@ -41,14 +46,14 @@ rule matchBAM2VCF:
         bam = bamFolder + "{sample}.bam",
         vcf = VCF
     output:
-        "bamstats/{sample}.bamstat.txt"
+        out_folder + "bamstats/{sample}.bamstat.txt"
     shell:
         "ml qtltools/1.2;"
         "QTLtools mbv --bam {input.bam} --vcf {input.vcf} --filter-mapping-quality 150 --out bamstats/"
 
 rule summariseResults:
     input:
-        files = expand("bamstats/{sample}.bamstat.txt", sample = BAM_SAMPLES)
+        files = expand(out_folder + "bamstats/{sample}.bamstat.txt", sample = BAM_SAMPLES)
     output:
         dataCode + "_summary.txt"
     shell:
