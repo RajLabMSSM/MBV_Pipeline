@@ -7,11 +7,11 @@ This pipeline parallelizes MBV on the cluster using Snakemake.
 To Run:
 
 1. First edit the `config.yaml` file asnecessary. The configurations are as follows:
-    - bamFolder: A folder containing all the aligned RNA-seq data to be matched. These should be `bam` files.
-    - bamSuffix: The suffix of your input bam files. This will probably be ".bam" so just leave this one alone.
-    - out_folder: The output directory where you want your final output to go. "output/" works or you can come up with a more exciting name.
-    - dataCode: The name of your data to be used for identification purposes later on. Pick something non-generic, e.g. ""
-    - VCF: The path to the genotype data to matched with the above RNA-seq data. This should be one `vcf` file containing all chromosomes.
+    - `bamFolder`: A folder containing all the aligned RNA-seq data to be matched. These should be `bam` files.
+    - `bamSuffix`: The suffix of your input bam files. This will probably be ".bam" so just leave this one alone.
+    - `out_folder`: The output directory where you want your final output to go. "output/" works or you can come up with a more exciting name.
+    - `dataCode`: The name of your data to be used for identification purposes later on. Pick something non-generic, e.g. ""
+    - `VCF`: The path to the genotype data to matched with the above RNA-seq data. This should be one `vcf` file containing all chromosomes.
 
 2. Run Snakemake
 first activate the snakemake environment
