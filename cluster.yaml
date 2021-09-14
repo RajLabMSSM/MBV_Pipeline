@@ -7,3 +7,7 @@ __default__:
   output: logs/{rule}:{wildcards}.stdout
   error: logs/{rule}:{wildcards}.stderr
   himem: ""
+matchBAM2VCF:
+    cores: 4
+    mem: 3000
+    time: 600
