@@ -4,7 +4,7 @@ import glob
 import pandas as pd
 import os
 import pathlib
-
+R_VERSION = "R/4.0.3"
 configfile: 'config.yaml'
 
 dataCode = config["dataCode"]
@@ -19,7 +19,7 @@ dataCode = dataCode + "_mbv"
 final_output = out_folder + dataCode + "_summary.txt"
 
 print(" * MBV pipeline *")
-print(" Jack Humphrey 2019-2020 ")
+print(" Jack Humphrey 2019-2023")
 print(" * Data code is : %s " % dataCode)
 
 pathlib.Path(out_folder + "bamstats").mkdir(parents=True, exist_ok=True)
@@ -52,14 +52,22 @@ rule matchBAM2VCF:
         "ml qtltools/1.2;"
         "QTLtools mbv --bam {input.bam} --vcf {input.vcf} --filter-mapping-quality 150 --out {output}"
 
-rule summariseResults:
+#rule summariseResults:
+#    input:
+#        files = expand(out_folder + "{sample}.bamstat.txt", sample = BAM_SAMPLES)
+#    output:
+#        final_output
+#    shell:
+#        "set +o pipefail;"
+#        "for i in {input.files};"
+#        "do cat $i | sort -k9nr,10nr | head -1 | awk -v i=$i \'{{print i, $0}}\'  ;"
+#        "done > {output};"
+
+rule collateMBV:
     input:
-        files = expand(out_folder + "{sample}.bamstat.txt", sample = BAM_SAMPLES)
+         files = expand(out_folder + "{sample}.bamstat.txt", sample = BAM_SAMPLES)
     output:
         final_output
     shell:
-        "set +o pipefail;"
-        "for i in {input.files};"
-        "do cat $i | sort -k9nr,10nr | head -1 | awk -v i=$i \'{{print i, $0}}\'  ;"
-        "done > {output};"
-
+        "ml {R_VERSION};"
+        "Rscript scripts/collate_mbv.R --outFolder {out_folder} --outFile {final_output}"
