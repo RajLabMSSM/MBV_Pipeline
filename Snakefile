@@ -47,7 +47,7 @@ rule matchBAM2VCF:
         bai = bamFolder + "{sample}.bam.bai",
         vcf = VCF
     output:
-        out_folder + "{sample}.bamstat.txt"
+        out_folder + "bamstats/{sample}.bamstat.txt"
     shell:
         "ml qtltools/1.2;"
         "QTLtools mbv --bam {input.bam} --vcf {input.vcf} --filter-mapping-quality 150 --out {output}"
