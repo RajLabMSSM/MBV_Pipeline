@@ -22,7 +22,7 @@ print(" * MBV pipeline *")
 print(" Jack Humphrey 2019-2023")
 print(" * Data code is : %s " % dataCode)
 
-pathlib.Path(out_folder + "bamstats").mkdir(parents=True, exist_ok=True)
+#pathlib.Path(out_folder + "bamstats").mkdir(parents=True, exist_ok=True)
 
 print(BAM_SAMPLES)
 print(len(BAM_SAMPLES) )
@@ -47,7 +47,7 @@ rule matchBAM2VCF:
         bai = bamFolder + "{sample}.bam.bai",
         vcf = VCF
     output:
-        out_folder + "bamstats/{sample}.bamstat.txt"
+        out_folder + "{sample}.bamstat.txt"
     shell:
         "ml qtltools/1.2;"
         "QTLtools mbv --bam {input.bam} --vcf {input.vcf} --filter-mapping-quality 150 --out {output}"
