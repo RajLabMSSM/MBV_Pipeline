@@ -10,4 +10,10 @@ __default__:
 matchBAM2VCF:
     cores: 4
     mem: 3000
-    time: 600
+    time: 1000
+somalier_vcf:
+    cores: 1
+    mem: 16000
+somalier_bam:
+    cores: 1
+    mem: 7750
