@@ -33,8 +33,8 @@ print(len(BAM_SAMPLES) )
 rule all:
     input:
         #expand(outFolder + "peer{PEER_N}/" + dataCode + "_peer{PEER_N}.{group_by}.combined_covariates.txt", PEER_N = PEER_values, group_by = group_by_values)
-        final_output,
-        som_folder + dataCode + ".somalier.ancestry.html"
+        final_output #,
+        #som_folder + dataCode + ".somalier-ancestry.html"
 
 rule indexBam:
     input:
@@ -54,7 +54,7 @@ rule matchBAM2VCF:
     output:
         out_folder + "{sample}.bamstat.txt"
     shell:
-        "ml qtltools/1.2;"
+        "ml qtltools/1.3;"
         "QTLtools mbv --bam {input.bam} --vcf {input.vcf} --filter-mapping-quality 150 --out {output}"
 
 #rule summariseResults:
@@ -104,6 +104,7 @@ rule somalier_vcf:
         ancestry_labels="/sc/arion/projects/ad-omics/data/software/somalier_0.2.12/ancestry/ancestry-labels-1kg.tsv",
         labeled_samples="/sc/arion/projects/ad-omics/data/software/somalier_0.2.12/ancestry/1kg-somalier/"
     output:
+        expand(som_folder + "{sample}.somalier", sample = BAM_SAMPLES),
         som_folder + "somalier_complete.txt"
     shell:
         "{somalier} extract -d {som_folder} --sites {params.sites} -f {params.ref} {input.vcf};"
@@ -116,9 +117,9 @@ rule relatedness_ancestry:
         expand(som_folder + "{sample}.somalier", sample = BAM_SAMPLES)
         #som_folder +  "somalier_complete.txt"
     output:
-        som_folder + dataCode + ".somalier.ancestry.html",
+        som_folder + dataCode + ".somalier-ancestry.html",
         som_folder + dataCode + ".somalier.relatedness.html",
-        som_folder + dataCode + ".somalier.ancestry.tsv"
+        som_folder + dataCode + ".somalier-ancestry.tsv"
     params:
         sites="/sc/arion/projects/ad-omics/data/software/somalier_0.2.12/sites/sites.hg38.vcf.gz",
         ref="/sc/arion/projects/ad-omics/data/references/hg38_reference/hg38.fa",
